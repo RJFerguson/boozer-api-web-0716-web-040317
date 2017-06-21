@@ -3,6 +3,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :ingredients
       resources :cocktails
+      resources :users
+      post '/login', to: 'auth#create'
+      get '/current_user', to: 'auth#show'
     end
   end
 end
