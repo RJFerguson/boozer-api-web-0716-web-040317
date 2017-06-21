@@ -1,6 +1,7 @@
 class Api::V1::AuthController < ApplicationController
+  before_action :authorize_user!, only: [:show]
 
-  def show 
+  def show
     render json: {
         id: current_user.id,
         username: current_user.username
@@ -17,7 +18,8 @@ class Api::V1::AuthController < ApplicationController
        # if they do, render back a json response of the user info
        render json: {
         id: user.id,
-        username: user.username
+        username: user.username,
+        jwt: JWT.encode({user_id: user_id}, ENV['JWT_SECRET'], ENV['JWT_ALGO'])
        }
      else
       # otherwise, render back some error response
@@ -26,4 +28,4 @@ class Api::V1::AuthController < ApplicationController
       }, status: 404
     end
   end
-end 
+end
